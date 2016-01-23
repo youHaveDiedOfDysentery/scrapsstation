@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="http://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+  
+</head>
+<body>
+
+<p>6289</p>
+<p>118472</p>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Scrapstation</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Item Lookup</a></li>
+        <li><a href="#">Track Item</a></li> 
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<form role="form" id="itemForm">
+  <div class="form-group">
+    <label for="itemId">Item ID:</label>
+    <input type="text" class="form-control" id="itemId">
+  </div>
+  <button class="btn btn-default" id="submitItemLookup">Lookup</button>
+</form>
+
+<div class="container-fluid"> 
+	<table id="myTable">
+	  <thead>
+		<th>realmName</th>
+		<th>id</th>
+		<th>count</th>
+		<th>average</th>
+		<th>min</th>
+		<th>max</th>
+	  </thead>
+	  <tbody id="myTableBody">
+	  </tbody>
+	</table>
+</div>
+
+<script>
+
+
+$( document ).ready(function() {
+	$('#myTable').dataTable();
+});
+
+
+
+	  $("#submitItemLookup").click(function(e) {
+		
+		var url = "item/" + $("#itemId").val(); // the script where you handle the form input.
+		
+		$.ajax({
+			   type: "GET",
+			   url: url,
+			   data: $("#itemForm").serialize(), // serializes the form's elements.
+			   success: function(data)
+			   {
+					var test = JSON.parse(data);
+					$('#myTable tbody').empty();
+				   for (var i = 0; i < test.length; i++)
+				   {
+						console.log(test[i]);
+						var obj = test[i];
+						var row = "<tr><td>" + obj.realmName + 
+									"</td><td>" + obj.id +
+									"</td><td>" + obj.count +
+									"</td><td>" + obj.average +
+									"</td><td>" + obj.min +
+									"</td><td>" + obj.max + "</td></tr>";
+						
+						$('#myTable > tbody:last-child').append(row);
+				   }
+				   
+				   
+			   }
+			 });
+
+		e.preventDefault(); // avoid to execute the actual submit of the form.
+	});
+  </script>
+
+</body>
+</html>

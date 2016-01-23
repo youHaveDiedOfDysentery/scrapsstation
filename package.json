@@ -1,0 +1,17 @@
+{
+  "name": "testapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "mysql": "^2.9.0",
+    "node-mysql": "^0.4.2",
+    "node-schedule": "^0.6.0"
+  }
+}
